@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,7 +44,9 @@ fun Home(homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factor
     var searchText by remember {
         mutableStateOf("")
     }
-    var id = -1
+    var id by remember {
+        mutableIntStateOf(-1)
+    }
     LaunchedEffect(key1 = true) {
         homeViewModel.getAllOrder()
     }
