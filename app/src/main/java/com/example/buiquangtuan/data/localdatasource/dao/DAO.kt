@@ -14,5 +14,9 @@ interface DAO {
     suspend fun insertOrder(dataBaseEntity: DataBaseEntity)
     @Delete
     suspend fun deleteOrder(dataBaseEntity: DataBaseEntity)
-    
+
+    @Query("UPDATE DataBaseEntity SET status=:status WHERE id = :id")
+    suspend fun update(status: String?, id: Int)
+    @Query("SELECT * FROM DataBaseEntity WHERE price LIKE '%' || :price || '%'")
+    suspend fun getByPrice(price: String): List<DataBaseEntity>
 }

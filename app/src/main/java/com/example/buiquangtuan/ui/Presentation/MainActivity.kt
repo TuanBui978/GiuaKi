@@ -43,27 +43,20 @@ fun MainScreen(modifier: Modifier = Modifier) {
     BuiquangtuanTheme {
         // A surface container using the 'background' color from the theme
         Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            floatingActionButton = {
-                if (show)
-                {
-                    FloatingActionButton(onClick = { navController.navigate("Order") }, ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                    }
-                }
-            }
+            modifier = Modifier.fillMaxSize()
         ) {
-
             NavHost(navController = navController, startDestination = "Home", modifier =  Modifier.padding(it)) {
                 composable("Home") {
-                    Home()
+                    Home(onFloatClick = {navController.navigate("Order")})
                 }
                 composable("Order") {
-                    OrderScreen()
+                    OrderScreen(back = {
+                        navController.popBackStack()
+                        show = true
+                    })
                     show = false
                 }
             }
-
         }
     }
 }

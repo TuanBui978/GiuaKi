@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,7 +39,7 @@ import com.example.buiquangtuan.data.localdatasource.entity.DataBaseEntity
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun OrderScreen(viewModel: OrderViewModel = androidx.lifecycle.viewmodel.compose.viewModel(factory = OrderViewModel.Factory)) {
+fun OrderScreen(viewModel: OrderViewModel = androidx.lifecycle.viewmodel.compose.viewModel(factory = OrderViewModel.Factory), back: ()->Unit = {}) {
     var cream by remember {
         mutableStateOf(false)
     }
@@ -48,6 +49,7 @@ fun OrderScreen(viewModel: OrderViewModel = androidx.lifecycle.viewmodel.compose
     var quantity by remember {
         mutableIntStateOf(0)
     }
+
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Image(painter = painterResource(id = R.drawable.coffe_img), contentDescription = null)
         Text(text = "Choose topping: ", fontWeight = FontWeight.ExtraBold, fontSize = 24.sp)
@@ -89,6 +91,7 @@ fun OrderScreen(viewModel: OrderViewModel = androidx.lifecycle.viewmodel.compose
 
             val dataBaseEntity = DataBaseEntity(cream = cream, chocolate = chocolate, quantity = quantity, price = price, status = "Đang chế biến")
             viewModel.onOrderClick(dataBaseEntity)
+            back()
                          }, shape = RoundedCornerShape(8.dp)) {
             Text(text = "ORDER")
         }

@@ -14,4 +14,18 @@ class LocalRepository(private val context: Context) {
         MyDatabase.getInstance(context).DAO().insertOrder(dataBaseEntity)
     }
 
+    suspend fun deleteEntity(dataBaseEntity: DataBaseEntity) {
+        MyDatabase.getInstance(context).DAO().deleteOrder(dataBaseEntity)
+    }
+
+    suspend fun update(id: Int, status: String) {
+        MyDatabase.getInstance(context).DAO().update(status, id)
+    }
+
+    suspend fun getByPrice(price: String): List<Order> {
+        return MyDatabase.getInstance(context).DAO().getByPrice(price).map {
+            it.toOrder()
+        }
+    }
+
 }

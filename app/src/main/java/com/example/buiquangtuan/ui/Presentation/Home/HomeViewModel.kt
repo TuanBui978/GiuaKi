@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.buiquangtuan.MyApplication
+import com.example.buiquangtuan.data.localdatasource.entity.DataBaseEntity
 import com.example.buiquangtuan.domain.model.Order
 import com.example.buiquangtuan.ui.Presentation.Order.OrderViewModel
 import kotlinx.coroutines.launch
@@ -39,4 +40,29 @@ class HomeViewModel(val application: MyApplication): ViewModel() {
 
     }
 
+    fun deleteEntity(dataBaseEntity: DataBaseEntity) {
+        viewModelScope.launch {
+            localRepository.deleteEntity(dataBaseEntity)
+            getAllOrder()
+        }
+    }
+
+    fun updateEntity(status: String, id: Int) {
+        viewModelScope.launch {
+            localRepository.update(id, status)
+            getAllOrder()
+        }
+    }
+    fun getByPrice(price: String) {
+        viewModelScope.launch {
+            if (price.isEmpty()) {
+                getAllOrder()
+            }
+            else {
+                list.postValue(localRepository.getByPrice(price))
+            }
+
+
+        }
+    }
 }
