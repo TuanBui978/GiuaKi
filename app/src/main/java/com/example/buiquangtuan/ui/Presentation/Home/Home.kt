@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,21 +43,19 @@ fun Home(homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factor
     var searchText by remember {
         mutableStateOf("")
     }
-    var id = 0
+    var id = -1
     LaunchedEffect(key1 = true) {
         homeViewModel.getAllOrder()
     }
     Box(modifier = Modifier.fillMaxSize()) {
-        FloatingActionButton(onClick = onFloatClick, modifier = Modifier.align(Alignment.BottomEnd) ) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = null)
-        }
+
         Column() {
             OutlinedTextField(value = searchText, onValueChange =
             {
                 searchText = it
                 homeViewModel.getByPrice(searchText)
             }, modifier = Modifier.fillMaxWidth())
-            LazyColumn() {
+            LazyColumn(contentPadding = PaddingValues(bottom = 30.dp)) {
                 list.value?.forEach {
                     order->
                     item {
@@ -84,9 +83,7 @@ fun Home(homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factor
 
                             }
                             Button(onClick = {
-                                homeViewModel.updateEntity(text,
-                                    id
-                                )
+                                homeViewModel.updateEntity(text, id)
                                 show = false
                             }) {
                                 Text("OK")
@@ -95,6 +92,9 @@ fun Home(homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factor
                     }
                 }
             }
+        }
+        FloatingActionButton(onClick = onFloatClick, modifier = Modifier.align(Alignment.BottomEnd) ) {
+            Icon(imageVector = Icons.Default.Add, contentDescription = null)
         }
     }
 
